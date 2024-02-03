@@ -1,11 +1,11 @@
-import { Resolver, Query } from '@nestjs/graphql';
+import { Resolver, Query } from '@nestjs/graphql'
 
-@Resolver("Hello")
+@Resolver('Hello')
 export class HelloResolver {
-  private message = 'Hello World!';
+  private message = 'Hello World!'
 
   @Query(() => String)
   hello() {
-    return this.message;
+    return this.message
   }
 }
