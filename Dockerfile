@@ -17,7 +17,6 @@ RUN npx prisma generate
 
 # アプリケーションのソースコードをコピー
 COPY src ./src/
-COPY .env ./
 COPY . .
 
 # アプリケーションのビルド
