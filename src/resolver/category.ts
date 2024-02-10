@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql'
-import { UseGuards, Req } from '@nestjs/common'
+import { UseGuards } from '@nestjs/common'
 import {
   Query as QueryType,
   NewCategory,
