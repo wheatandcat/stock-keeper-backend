@@ -10,8 +10,6 @@ type Category {
   name: String!
   "順番"
   order: Int!
-  "アイテム数"
-  itemCount: Int!
 }
 
 type Item {
@@ -25,6 +23,17 @@ type Item {
   stock: Int!
   "消費期限"
   expirationDate: Time
+}
+
+input NewCategory {
+  "カテゴリー名"
+  name: String!
+  "順番"
+  order: Int!
+}
+
+type Mutation {
+  createCategory(input: NewCategory!): Category!
 }
 
 scalar Time
