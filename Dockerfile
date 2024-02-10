@@ -11,10 +11,14 @@ COPY package.json pnpm-lock.yaml ./
 # 依存関係のインストール
 RUN pnpm install
 
-# アプリケーションのソースコードをコピー
-COPY . .
-
+# Prismaクライアントの生成
+COPY prisma ./prisma/
 RUN npx prisma generate
+
+# アプリケーションのソースコードをコピー
+COPY src ./src/
+COPY .env ./
+COPY . .
 
 # アプリケーションのビルド
 RUN pnpm run build
@@ -33,10 +37,13 @@ RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml ./
 
 # 本番依存関係のみをインストール
-RUN pnpm install --prod
+RUN pnpm install
 
 # ビルドしたファイルをコピー
 COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/prisma ./prisma
+COPY --from=builder /usr/src/app/src ./src
 
 # アプリケーションがリッスンするポート番号
 EXPOSE 8080

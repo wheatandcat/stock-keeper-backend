@@ -25,11 +25,3 @@ pnpm db:push
 ```
 
 ## デプロイ
-
-### pack
-
-```shell
-pack build gcr.io/our-project-id/stock-keeper-backend --builder gcr.io/buildpacks/builder:google-22
-```
-
-### Docker
