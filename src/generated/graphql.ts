@@ -59,5 +59,11 @@ export type NewCategory = {
 export type Query = {
   __typename?: 'Query';
   categories?: Maybe<Array<Maybe<Category>>>;
+  category?: Maybe<Category>;
   hello?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type QueryCategoryArgs = {
+  id: Scalars['Int']['input'];
 };

@@ -13,7 +13,7 @@ import { AuthGuard } from '@src/common/guards/auth/auth.guard'
 export class CategoryResolver {
   constructor(private prisma: PrismaService) {}
 
-  @Query(() => String)
+  @Query('categories')
   @UseGuards(AuthGuard)
   async categories(@Context() context): Promise<QueryType['categories']> {
     const user = context.req.auth
@@ -27,6 +27,23 @@ export class CategoryResolver {
       },
     })
     return r.map((c) => format(c))
+  }
+
+  @Query('category')
+  @UseGuards(AuthGuard)
+  async category(
+    @Args('id') id: number,
+    @Context() context
+  ): Promise<QueryType['category']> {
+    const user = context.req.auth
+
+    const r = await this.prisma.category.findFirst({
+      where: {
+        id: id,
+        userId: user.userId,
+      },
+    })
+    return format(r)
   }
 
   @Mutation('createCategory')
