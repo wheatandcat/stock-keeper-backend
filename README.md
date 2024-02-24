@@ -3,7 +3,7 @@
 ## ローカル起動
 
 ```shell
-pnpm run start:dev
+pnpm run dev
 ```
 
 ## Resolver生成

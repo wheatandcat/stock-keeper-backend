@@ -3,24 +3,28 @@ import { UseGuards } from '@nestjs/common'
 import {
   Query as QueryType,
   Mutation as MutationType,
-  MutationCreateCategoryArgs,
+  MutationCreateItemArgs,
 } from '@src/generated/graphql'
 import { PrismaService } from '@src/modules/prisma/prisma.service'
 import { format } from '@src/lib/graphql'
 import { AuthGuard } from '@src/common/guards/auth/auth.guard'
 
 @Resolver('')
-export class CategoryResolver {
+export class ItemResolver {
   constructor(private prisma: PrismaService) {}
 
-  @Query('categories')
+  @Query('items')
   @UseGuards(AuthGuard)
-  async categories(@Context() context): Promise<QueryType['categories']> {
+  async categories(
+    @Args('categoryId') categoryId: number,
+    @Context() context
+  ): Promise<QueryType['items']> {
     const user = context.req.auth
 
-    const r = await this.prisma.category.findMany({
+    const r = await this.prisma.item.findMany({
       where: {
         userId: user.userId,
+        categoryId: categoryId,
       },
       orderBy: {
         order: 'asc',
@@ -29,15 +33,15 @@ export class CategoryResolver {
     return r.map((c) => format(c))
   }
 
-  @Query('category')
+  @Query('item')
   @UseGuards(AuthGuard)
   async category(
     @Args('id') id: number,
     @Context() context
-  ): Promise<QueryType['category']> {
+  ): Promise<QueryType['item']> {
     const user = context.req.auth
 
-    const r = await this.prisma.category.findFirst({
+    const r = await this.prisma.item.findFirst({
       where: {
         id: id,
         userId: user.userId,
@@ -46,18 +50,21 @@ export class CategoryResolver {
     return format(r)
   }
 
-  @Mutation('createCategory')
+  @Mutation('createItem')
   @UseGuards(AuthGuard)
-  async createCategory(
-    @Args('input') input: MutationCreateCategoryArgs['input'],
+  async createItem(
+    @Args('input') input: MutationCreateItemArgs['input'],
     @Context() context
-  ): Promise<MutationType['createCategory']> {
+  ): Promise<MutationType['createItem']> {
     const user = context.req.auth
 
-    const r = await this.prisma.category.create({
+    const r = await this.prisma.item.create({
       data: {
         userId: user.userId,
         name: input.name,
+        categoryId: input.categoryId,
+        stock: input.stock,
+        expirationDate: input.expirationDate,
         order: input.order,
       },
     })

@@ -35,6 +35,8 @@ export type Item = {
   id: Scalars['ID']['output'];
   /** アイテム名 */
   name: Scalars['String']['output'];
+  /** 順番 */
+  order: Scalars['Int']['output'];
   /** 在庫数 */
   stock: Scalars['Int']['output'];
 };
@@ -42,11 +44,17 @@ export type Item = {
 export type Mutation = {
   __typename?: 'Mutation';
   createCategory: Category;
+  createItem: Item;
 };
 
 
 export type MutationCreateCategoryArgs = {
   input: NewCategory;
+};
+
+
+export type MutationCreateItemArgs = {
+  input: NewItem;
 };
 
 export type NewCategory = {
@@ -56,14 +64,39 @@ export type NewCategory = {
   order: Scalars['Int']['input'];
 };
 
+export type NewItem = {
+  /** カテゴリーID */
+  categoryId: Scalars['Int']['input'];
+  /** 消費期限 */
+  expirationDate?: InputMaybe<Scalars['Time']['input']>;
+  /** アイテム名 */
+  name: Scalars['String']['input'];
+  /** 順番 */
+  order: Scalars['Int']['input'];
+  /** 在庫数 */
+  stock: Scalars['Int']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   categories?: Maybe<Array<Maybe<Category>>>;
   category?: Maybe<Category>;
   hello?: Maybe<Scalars['String']['output']>;
+  item?: Maybe<Item>;
+  items?: Maybe<Array<Maybe<Item>>>;
 };
 
 
 export type QueryCategoryArgs = {
   id: Scalars['Int']['input'];
+};
+
+
+export type QueryItemArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type QueryItemsArgs = {
+  categoryId: Scalars['Int']['input'];
 };
