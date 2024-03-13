@@ -32,6 +32,9 @@ jobs:
           version: '>= 363.0.0'
 
       - name: Authorize Docker push
+        run: gcloud auth configure-docker
+
+      - name: Authorize Docker push
         run: docker build --platform linux/amd64  -t gcr.io/$PROJECT_ID/$SERVICE_NAME .
 
       - name: Push Docker Image
