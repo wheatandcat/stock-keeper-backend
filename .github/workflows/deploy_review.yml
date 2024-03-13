@@ -24,7 +24,7 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: ${{ secrets.REVIEW_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: github-actions@${{ secrets.REVIEW_GCP_PROJECT_ID }}.iam.gserviceaccount.com
+          service_account: github@${{ secrets.REVIEW_GCP_PROJECT_ID }}.iam.gserviceaccount.com
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
@@ -43,11 +43,11 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |-
-          gcloud run deploy $SERVICE_NAME  \
+          gcloud run deploy stock-keeper  \
             --project=$PROJECT_ID  \
             --image=asia.gcr.io/$PROJECT_ID/$SERVICE_NAME \
             --platform managed \
             --region asia-southeast1 \
             --allow-unauthenticated \
-            --service-account=github-actions@$PROJECT_ID.iam.gserviceaccount.com \
+            --service-account=github@$PROJECT_ID.iam.gserviceaccount.com \
             --set-env-vars DATABASE_URL="$DATABASE_URL
