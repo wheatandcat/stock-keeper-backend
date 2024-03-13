@@ -1,0 +1,50 @@
+name: Deploy Review
+
+on:
+  push:
+    branches:
+      - main
+      - '3'
+
+env:
+  PROJECT_ID: ${{ secrets.REVIEW_GCP_PROJECT_ID }}
+  SERVICE_NAME: ${{ secrets.REVIEW_SERVICE_NAME }}
+  DATABASE_URL: ${{ secrets.REVIEW_DATABASE_URL }}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: 'actions/checkout@v3'
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: ${{ secrets.REVIEW_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: github-actions@${{ secrets.REVIEW_GCP_PROJECT_ID }}.iam.gserviceaccount.com
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: '>= 363.0.0'
+
+      - name: Authorize Docker push
+        run: docker build --platform linux/amd64  -t gcr.io/$PROJECT_ID/$SERVICE_NAME .
+
+      - name: Push Docker Image
+        run: |-
+          docker push gcr.io/$PROJECT_ID/$SERVICE_NAME
+
+      - name: Deploy to Cloud Run
+        run: |-
+          gcloud run deploy $SERVICE_NAME  \
+            --project=$PROJECT_ID  \
+            --image=asia.gcr.io/$PROJECT_ID/$SERVICE_NAME \
+            --platform managed \
+            --region asia-southeast1 \
+            --allow-unauthenticated \
+            --service-account=github-actions@$PROJECT_ID.iam.gserviceaccount.com \
+            --set-env-vars DATABASE_URL="$DATABASE_URL
