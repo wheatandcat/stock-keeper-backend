@@ -32,20 +32,20 @@ jobs:
           version: '>= 363.0.0'
 
       - name: Authorize Docker push
-        run: gcloud auth configure-docker
+        run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev
 
       - name: Authorize Docker push
-        run: docker build --platform linux/amd64  -t gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} .
+        run: docker build --platform linux/amd64  -t asia-southeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} .
 
       - name: Push Docker Image
         run: |-
-          docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}
+          docker push asia-southeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}
 
       - name: Deploy to Cloud Run
         run: |-
           gcloud run deploy stock-keeper  \
             --project=$PROJECT_ID  \
-            --image=asia.gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \
+            --image=asia-southeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \
             --platform managed \
             --region asia-southeast1 \
             --allow-unauthenticated \
