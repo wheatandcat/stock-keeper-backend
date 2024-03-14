@@ -34,12 +34,11 @@ jobs:
       - name: Authorize Docker push
         run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev
 
-      - name: Authorize Docker push
-        run: docker build --platform linux/amd64  -t asia-southeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} .
+      - name: Build Docker image
+        run: docker build -t asia-southeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} .
 
       - name: Push Docker Image
-        run: |-
-          docker push asia-southeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}
+        run: docker push asia-southeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}
 
       - name: Deploy to Cloud Run
         run: |-
