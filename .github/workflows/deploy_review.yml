@@ -44,7 +44,7 @@ jobs:
             --project=$PROJECT_ID  \
             --image=asia.gcr.io/$PROJECT_ID/$SERVICE_NAME:latest \
             --platform managed \
-            --region asia-southeast1 \
+            --region asia-northeast1 \
             --allow-unauthenticated \
             --service-account=github@$PROJECT_ID.iam.gserviceaccount.com \
             --set-env-vars DATABASE_URL="$DATABASE_URL"
