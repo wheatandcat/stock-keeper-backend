@@ -19,6 +19,8 @@ export type Category = {
   __typename?: 'Category';
   /** カテゴリーID */
   id: Scalars['ID']['output'];
+  /** アイテム数 */
+  itemCount?: Maybe<Scalars['Int']['output']>;
   /** カテゴリー名 */
   name: Scalars['String']['output'];
   /** 順番 */
@@ -45,6 +47,10 @@ export type Mutation = {
   __typename?: 'Mutation';
   createCategory: Category;
   createItem: Item;
+  deleteCategory: Category;
+  deleteItem: Item;
+  updateCategory: Category;
+  updateItem: Item;
 };
 
 
@@ -55,6 +61,26 @@ export type MutationCreateCategoryArgs = {
 
 export type MutationCreateItemArgs = {
   input: NewItem;
+};
+
+
+export type MutationDeleteCategoryArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type MutationDeleteItemArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type MutationUpdateCategoryArgs = {
+  input: UpdateCategory;
+};
+
+
+export type MutationUpdateItemArgs = {
+  input: UpdateItem;
 };
 
 export type NewCategory = {
@@ -99,4 +125,28 @@ export type QueryItemArgs = {
 
 export type QueryItemsArgs = {
   categoryId: Scalars['Int']['input'];
+};
+
+export type UpdateCategory = {
+  /** アイテムID */
+  id: Scalars['Int']['input'];
+  /** カテゴリー名 */
+  name: Scalars['String']['input'];
+  /** 順番 */
+  order: Scalars['Int']['input'];
+};
+
+export type UpdateItem = {
+  /** カテゴリーID */
+  categoryId: Scalars['Int']['input'];
+  /** 消費期限 */
+  expirationDate?: InputMaybe<Scalars['Time']['input']>;
+  /** アイテムID */
+  id: Scalars['Int']['input'];
+  /** アイテム名 */
+  name: Scalars['String']['input'];
+  /** 順番 */
+  order: Scalars['Int']['input'];
+  /** 在庫数 */
+  stock: Scalars['Int']['input'];
 };

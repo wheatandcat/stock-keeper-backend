@@ -4,6 +4,7 @@ import {
   Query as QueryType,
   Mutation as MutationType,
   MutationCreateItemArgs,
+  MutationUpdateItemArgs,
 } from '@src/generated/graphql'
 import { PrismaService } from '@src/modules/prisma/prisma.service'
 import { format } from '@src/lib/graphql'
@@ -69,6 +70,44 @@ export class ItemResolver {
       },
     })
 
+    return format(r)
+  }
+  @Mutation('updateItem')
+  @UseGuards(AuthGuard)
+  async updateItem(
+    @Args('input') input: MutationUpdateItemArgs['input'],
+    @Context() context
+  ): Promise<MutationType['createItem']> {
+    const user = context.req.auth
+    const r = await this.prisma.item.update({
+      where: {
+        id: input.id,
+        userId: user.userId,
+      },
+      data: {
+        name: input.name,
+        stock: input.stock,
+        expirationDate: input.expirationDate,
+        order: input.order,
+      },
+    })
+
+    return format(r)
+  }
+  @Mutation('deleteItem')
+  @UseGuards(AuthGuard)
+  async deleteItem(
+    @Args('id') id: number,
+    @Context() context
+  ): Promise<MutationType['createItem']> {
+    const user = context.req.auth
+
+    const r = await this.prisma.item.delete({
+      where: {
+        id: id,
+        userId: user.userId,
+      },
+    })
     return format(r)
   }
 }
