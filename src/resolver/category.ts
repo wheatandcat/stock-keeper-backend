@@ -4,6 +4,7 @@ import {
   Query as QueryType,
   Mutation as MutationType,
   MutationCreateCategoryArgs,
+  MutationUpdateCategoryArgs,
 } from '@src/generated/graphql'
 import { PrismaService } from '@src/modules/prisma/prisma.service'
 import { format } from '@src/lib/graphql'
@@ -26,7 +27,27 @@ export class CategoryResolver {
         order: 'asc',
       },
     })
-    return r.map((c) => format(c))
+
+    const categoryId = r.map((v) => v.id)
+    const itemCount = await this.prisma.item.groupBy({
+      by: ['categoryId'],
+      where: {
+        categoryId: {
+          in: categoryId,
+        },
+      },
+      _count: {
+        id: true,
+      },
+    })
+
+    return r.map((c) => {
+      return {
+        ...format(c),
+        itemCount:
+          itemCount.find((v) => v.categoryId === c.id)?._count?.id || 0,
+      }
+    })
   }
 
   @Query('category')
@@ -59,6 +80,46 @@ export class CategoryResolver {
         userId: user.userId,
         name: input.name,
         order: input.order,
+      },
+    })
+
+    return format(r)
+  }
+
+  @Mutation('updateCategory')
+  @UseGuards(AuthGuard)
+  async updateCategory(
+    @Args('input') input: MutationUpdateCategoryArgs['input'],
+    @Context() context
+  ): Promise<MutationType['updateCategory']> {
+    const user = context.req.auth
+
+    const r = await this.prisma.category.update({
+      where: {
+        id: input.id,
+        userId: user.userId,
+      },
+      data: {
+        name: input.name,
+        order: input.order,
+      },
+    })
+
+    return format(r)
+  }
+
+  @Mutation('deleteCategory')
+  @UseGuards(AuthGuard)
+  async deleteCategory(
+    @Args('id') id: number,
+    @Context() context
+  ): Promise<MutationType['deleteCategory']> {
+    const user = context.req.auth
+
+    const r = await this.prisma.category.delete({
+      where: {
+        id: id,
+        userId: user.userId,
       },
     })
 
