@@ -123,6 +123,14 @@ export class CategoryResolver {
       },
     })
 
+    // 紐づくアイテムも削除
+    await this.prisma.item.deleteMany({
+      where: {
+        categoryId: id,
+        userId: user.userId,
+      },
+    })
+
     return format(r)
   }
 }
