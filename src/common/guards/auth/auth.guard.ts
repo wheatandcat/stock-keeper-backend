@@ -3,7 +3,7 @@ import { GqlExecutionContext } from '@nestjs/graphql'
 import { Observable } from 'rxjs'
 
 export type Auth = {
-  uuid: string
+  uid: string
 }
 
 @Injectable()
@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     const ctx = GqlExecutionContext.create(context)
     const request = ctx.getContext().req
     request.auth = {
-      uuid: 'uuid',
+      uid: 'uid',
       userId: 1,
     } as Auth
 

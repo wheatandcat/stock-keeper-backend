@@ -47,6 +47,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createCategory: Category;
   createItem: Item;
+  createUser: User;
   deleteCategory: Category;
   deleteItem: Item;
   updateCategory: Category;
@@ -61,6 +62,11 @@ export type MutationCreateCategoryArgs = {
 
 export type MutationCreateItemArgs = {
   input: NewItem;
+};
+
+
+export type MutationCreateUserArgs = {
+  input: NewUser;
 };
 
 
@@ -103,6 +109,11 @@ export type NewItem = {
   stock: Scalars['Int']['input'];
 };
 
+export type NewUser = {
+  /** UID */
+  uid: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   categories?: Maybe<Array<Maybe<Category>>>;
@@ -110,6 +121,7 @@ export type Query = {
   hello?: Maybe<Scalars['String']['output']>;
   item?: Maybe<Item>;
   items?: Maybe<Array<Maybe<Item>>>;
+  me?: Maybe<User>;
 };
 
 
@@ -149,4 +161,12 @@ export type UpdateItem = {
   order: Scalars['Int']['input'];
   /** 在庫数 */
   stock: Scalars['Int']['input'];
+};
+
+export type User = {
+  __typename?: 'User';
+  /** ユーザーID */
+  id: Scalars['ID']['output'];
+  /** UID */
+  uid: Scalars['String']['output'];
 };
