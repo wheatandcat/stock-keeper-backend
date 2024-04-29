@@ -3,6 +3,8 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify'
+import admin from 'firebase-admin'
+import * as serviceAccount from './firebase.json'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
@@ -10,6 +12,10 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ logger: true })
   )
+
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+  })
 
   const port = Number(process.env.PORT) || 8080
   console.log(`Listening on port ${port}`)

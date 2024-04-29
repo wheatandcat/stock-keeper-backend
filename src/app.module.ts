@@ -6,6 +6,7 @@ import { AppService } from '@src/app.service'
 import { HelloResolver } from './hello.resolver'
 import { CategoryResolver } from '@src/resolver/category'
 import { ItemResolver } from '@src/resolver/item'
+import { UserResolver } from '@src/resolver/user'
 import { PrismaService } from '@src/modules/prisma/prisma.service'
 
 @Module({
@@ -13,6 +14,7 @@ import { PrismaService } from '@src/modules/prisma/prisma.service'
   providers: [
     AppService,
     HelloResolver,
+    UserResolver,
     CategoryResolver,
     ItemResolver,
     PrismaService,
