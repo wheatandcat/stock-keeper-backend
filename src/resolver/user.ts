@@ -7,6 +7,8 @@ import {
 import { PrismaService } from '@src/modules/prisma/prisma.service'
 import { format } from '@src/lib/graphql'
 import { AuthGuard } from '@src/common/guards/auth/auth.guard'
+import admin from 'firebase-admin'
+import { Prisma } from '@prisma/client'
 
 @Resolver('')
 export class UserResolver {
@@ -26,16 +28,23 @@ export class UserResolver {
   }
 
   @Mutation('createUser')
-  @UseGuards(AuthGuard)
-  async createItem(@Context() context): Promise<MutationType['createItem']> {
-    const user = context.req.auth
-
-    const r = await this.prisma.user.create({
-      data: {
-        uid: user.uid,
-      },
-    })
-
-    return format(r)
+  async createUser(@Context() context): Promise<MutationType['createUser']> {
+    const token = context.reply.request.headers['authorization']
+    const result = await admin.auth().verifyIdToken(token)
+    try {
+      const r = await this.prisma.user.create({
+        data: {
+          uid: result.uid,
+        },
+      })
+      return format(r)
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') {
+          throw new Error('User already exists')
+        }
+      }
+      throw e
+    }
   }
 }

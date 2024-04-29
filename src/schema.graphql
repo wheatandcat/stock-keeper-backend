@@ -40,11 +40,6 @@ type Item {
   order: Int!
 }
 
-input NewUser {
-  "UID"
-  uid: String!
-}
-
 input NewCategory {
   "カテゴリー名"
   name: String!
@@ -90,7 +85,7 @@ input UpdateItem {
 }
 
 type Mutation {
-  createUser(input: NewUser!): User!
+  createUser: User!
   createCategory(input: NewCategory!): Category!
   updateCategory(input: UpdateCategory!): Category!
   deleteCategory(id: Int!): Category!

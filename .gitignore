@@ -37,3 +37,4 @@ lerna-debug.log*
 .env
 .envrc
 TEST.md
+src/firebase.json

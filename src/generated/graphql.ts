@@ -65,11 +65,6 @@ export type MutationCreateItemArgs = {
 };
 
 
-export type MutationCreateUserArgs = {
-  input: NewUser;
-};
-
-
 export type MutationDeleteCategoryArgs = {
   id: Scalars['Int']['input'];
 };
@@ -107,11 +102,6 @@ export type NewItem = {
   order: Scalars['Int']['input'];
   /** 在庫数 */
   stock: Scalars['Int']['input'];
-};
-
-export type NewUser = {
-  /** UID */
-  uid: Scalars['String']['input'];
 };
 
 export type Query = {

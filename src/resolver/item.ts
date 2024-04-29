@@ -16,7 +16,7 @@ export class ItemResolver {
 
   @Query('items')
   @UseGuards(AuthGuard)
-  async categories(
+  async items(
     @Args('categoryId') categoryId: number,
     @Context() context
   ): Promise<QueryType['items']> {
@@ -36,7 +36,7 @@ export class ItemResolver {
 
   @Query('item')
   @UseGuards(AuthGuard)
-  async category(
+  async item(
     @Args('id') id: number,
     @Context() context
   ): Promise<QueryType['item']> {
