@@ -8,6 +8,7 @@ env:
   PROJECT_ID: ${{ secrets.REVIEW_GCP_PROJECT_ID }}
   SERVICE_NAME: ${{ secrets.REVIEW_SERVICE_NAME }}
   DATABASE_URL: ${{ secrets.REVIEW_DATABASE_URL }}
+  REVIEW_FIREBASE_SERVICE: ${{ secrets.REVIEW_FIREBASE_SERVICE }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -16,6 +17,9 @@ jobs:
       id-token: write
     steps:
       - uses: 'actions/checkout@v4'
+
+      - name: Create firebase.json file
+        run: echo $REVIEW_FIREBASE_SERVICE | base64 --decode -i > ./src/firebase.json
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
