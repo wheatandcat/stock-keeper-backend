@@ -15,6 +15,7 @@ model Category {
   id        Int      @id @default(autoincrement())
   userId    Int      @default(0)
   name      String   @db.VarChar(20)
+  imageURL  String?  @db.VarChar(1024)
   order     Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,6 +27,7 @@ model Item {
   userId         Int       @default(0)
   categoryId     Int       @default(0)
   name           String    @db.VarChar(100)
+  imageURL       String?   @db.VarChar(1024)
   order          Int       @default(0)
   stock          Int       @default(0)
   expirationDate DateTime?

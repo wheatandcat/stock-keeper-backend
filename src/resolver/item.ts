@@ -64,6 +64,7 @@ export class ItemResolver {
         userId: user.userId,
         name: input.name,
         categoryId: input.categoryId,
+        imageURL: input.imageURL,
         stock: input.stock,
         expirationDate: input.expirationDate,
         order: input.order,
@@ -86,6 +87,7 @@ export class ItemResolver {
       },
       data: {
         name: input.name,
+        imageURL: input.imageURL,
         stock: input.stock,
         expirationDate: input.expirationDate,
         order: input.order,
