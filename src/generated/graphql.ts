@@ -19,6 +19,8 @@ export type Category = {
   __typename?: 'Category';
   /** カテゴリーID */
   id: Scalars['ID']['output'];
+  /** 画像URL */
+  imageURL?: Maybe<Scalars['String']['output']>;
   /** アイテム数 */
   itemCount?: Maybe<Scalars['Int']['output']>;
   /** カテゴリー名 */
@@ -35,6 +37,8 @@ export type Item = {
   expirationDate?: Maybe<Scalars['Time']['output']>;
   /** アイテムID */
   id: Scalars['ID']['output'];
+  /** 画像URL */
+  imageURL?: Maybe<Scalars['String']['output']>;
   /** アイテム名 */
   name: Scalars['String']['output'];
   /** 順番 */
@@ -85,6 +89,8 @@ export type MutationUpdateItemArgs = {
 };
 
 export type NewCategory = {
+  /** 画像URL */
+  imageURL?: InputMaybe<Scalars['String']['input']>;
   /** カテゴリー名 */
   name: Scalars['String']['input'];
   /** 順番 */
@@ -96,6 +102,8 @@ export type NewItem = {
   categoryId: Scalars['Int']['input'];
   /** 消費期限 */
   expirationDate?: InputMaybe<Scalars['Time']['input']>;
+  /** 画像URL */
+  imageURL?: InputMaybe<Scalars['String']['input']>;
   /** アイテム名 */
   name: Scalars['String']['input'];
   /** 順番 */
@@ -132,6 +140,8 @@ export type QueryItemsArgs = {
 export type UpdateCategory = {
   /** アイテムID */
   id: Scalars['Int']['input'];
+  /** 画像URL */
+  imageURL?: InputMaybe<Scalars['String']['input']>;
   /** カテゴリー名 */
   name: Scalars['String']['input'];
   /** 順番 */
@@ -145,6 +155,8 @@ export type UpdateItem = {
   expirationDate?: InputMaybe<Scalars['Time']['input']>;
   /** アイテムID */
   id: Scalars['Int']['input'];
+  /** 画像URL */
+  imageURL?: InputMaybe<Scalars['String']['input']>;
   /** アイテム名 */
   name: Scalars['String']['input'];
   /** 順番 */

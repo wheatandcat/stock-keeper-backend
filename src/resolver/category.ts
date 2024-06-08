@@ -79,6 +79,7 @@ export class CategoryResolver {
       data: {
         userId: user.userId,
         name: input.name,
+        imageURL: input.imageURL,
         order: input.order,
       },
     })
@@ -101,6 +102,7 @@ export class CategoryResolver {
       },
       data: {
         name: input.name,
+        imageURL: input.imageURL,
         order: input.order,
       },
     })
