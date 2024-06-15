@@ -16,6 +16,11 @@ async function bootstrap() {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
   })
+  app.enableCors({
+    origin: ['http://localhost:5000'], // 許可するドメインの配列
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  })
 
   const port = Number(process.env.PORT) || 8080
   console.log(`Listening on port ${port}`)
