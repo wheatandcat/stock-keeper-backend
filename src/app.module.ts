@@ -7,6 +7,7 @@ import { HelloResolver } from './hello.resolver'
 import { CategoryResolver } from '@src/resolver/category'
 import { ItemResolver } from '@src/resolver/item'
 import { UserResolver } from '@src/resolver/user'
+import { CartResolver } from '@src/resolver/cart'
 import { PrismaService } from '@src/modules/prisma/prisma.service'
 
 @Module({
@@ -17,6 +18,7 @@ import { PrismaService } from '@src/modules/prisma/prisma.service'
     UserResolver,
     CategoryResolver,
     ItemResolver,
+    CartResolver,
     PrismaService,
   ],
   imports: [

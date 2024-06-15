@@ -112,4 +112,29 @@ export class ItemResolver {
     })
     return format(r)
   }
+
+  @Query('itemAll')
+  @UseGuards(AuthGuard)
+  async itemAll(@Context() context): Promise<QueryType['itemAll']> {
+    const user = context.req.auth
+    console.log('user_id', user.userId)
+
+    const r = await this.prisma.item.findMany({
+      where: {
+        userId: user.userId,
+      },
+      include: {
+        category: true,
+      },
+      orderBy: [
+        {
+          categoryId: 'asc',
+        },
+        {
+          order: 'asc',
+        },
+      ],
+    })
+    return r.map((c) => format(c))
+  }
 }
