@@ -17,7 +17,7 @@ async function bootstrap() {
     credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
   })
   app.enableCors({
-    origin: ['http://localhost:5000'], // 許可するドメインの配列
+    origin: ['http://localhost:5000', 'http://localhost:5001'], // 許可するドメインの配列
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   })
